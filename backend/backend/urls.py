@@ -15,8 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from todo import views
+
+"""
+This code specifies the URL path for the API. This was the final step that completes the building of the API.
+
+You can now perform CRUD operations on the Todo model. The router class allows you to make the following queries:
+
+/todos/ - returns a list of all the Todo items. CREATE and READ operations can be performed here.
+/todos/id - returns a single Todo item using the id primary key. UPDATE and DELETE operations can be performed here.
+"""
+
+router = routers.DefaultRouter()
+router.register(r'todos', views.TodoView, 'todo')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls))
 ]
